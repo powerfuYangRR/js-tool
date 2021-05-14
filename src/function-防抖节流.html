@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <button id="aa">go</button>
+    <script>
+        // function fuc()
+        // 防抖 在第一次触发事件时，不立即执行函数，而是给出一个期限值比如200ms, 如果一直点就不执行了
+        function myDebounce(fn, delay) {
+            let time = null
+            return function () {
+                clearTimeout(time)
+                time = setTimeout(() => {
+                    fn.apply(this, arguments)
+                }, delay)
+            }
+        }
+        // 节流 为了能一直点的时候可以执行，函数执行一次之后，该函数在指定的时间期限内不再工作，直至过了这段时间才‘重新生效’
+        function myThrottle(fn, delay) {
+            var last = 0
+            return function () {
+                // console.log(this, '***********打印 this ***********');
+                var curr1 = Date.now()
+                if (curr1 - last >= delay) {
+                    console.log(this, '***********打印 this ***********');
+                    last = curr1
+                    fn()
+                    // fn.apply(this, arguments)
+                }
+            }
+        }
+        function test(n = 111) {
+            console.log(n, '***********打印 test ***********');
+        }
+        // document.getElementById('aa').onclick = this.myThrottle(test, 2000)
+        document.getElementById('aa').onclick = this.myDebounce(test, 2000)
+            // window.addEventListener('mousemove', myDebounce(test, 300))
+    </script>
+</body>
+
+</html>
